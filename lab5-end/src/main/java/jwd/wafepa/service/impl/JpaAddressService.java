@@ -41,5 +41,10 @@ public class JpaAddressService
 		addressRepository.delete(id);
 	}
 
+	@Override
+	public List<Address> findByUserId(Long userId) {
+		return addressRepository.findByUserId(userId);
+	}
+
 
 }

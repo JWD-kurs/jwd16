@@ -3,6 +3,7 @@ package jwd.wafepa.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +32,7 @@ public class User {
 	@Column(name="last_name")
 	private String lastName;
 	
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user",cascade=CascadeType.ALL)
 	private List<Address> addresses = new ArrayList<>();
 	
 	public Long getId() {
@@ -73,7 +74,7 @@ public class User {
 	
     public void addAddress(Address address){
         this.addresses.add(address);
-        if(address.getUser()!=this){
+        if(!address.getUser().equals(this)){
             address.setUser(this);
         }
     }

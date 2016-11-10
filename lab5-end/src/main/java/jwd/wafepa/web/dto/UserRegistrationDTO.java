@@ -1,9 +1,14 @@
 package jwd.wafepa.web.dto;
 
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 public class UserRegistrationDTO {
 	private Long id;
 	private String email;
+	@NotBlank
+	@Size(min=3,max=30,message="Bla")
 	private String firstname;
 	private String lastname;
 	private String password;

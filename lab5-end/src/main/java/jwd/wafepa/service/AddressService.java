@@ -33,6 +33,8 @@ public interface AddressService {
 	 * @param id ID of the address to be removed. 
 	 */
 	void delete(Long id);
+
+	List<Address> findByUserId(Long userId);
 	
 
 	

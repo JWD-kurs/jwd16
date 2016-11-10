@@ -27,7 +27,7 @@ public class TestData {
 		activityService.save(new Activity("Running"));
 		activityService.save(new Activity("Swimming"));
 		
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= 50; i++) {
             User user = new User();
             user.setFirstName("First name " + i);
             user.setLastName("Last name " + i);

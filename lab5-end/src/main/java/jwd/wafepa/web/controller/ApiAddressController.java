@@ -12,13 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import jwd.wafepa.model.Address;
+import jwd.wafepa.model.User;
 import jwd.wafepa.service.AddressService;
+import jwd.wafepa.service.UserService;
 import jwd.wafepa.support.AddressDTOToAddress;
 import jwd.wafepa.support.AddressToAddressDTO;
 import jwd.wafepa.web.dto.AddressDTO;
 
 @Controller
-@RequestMapping("/api/addresses")
+@RequestMapping("/api/users/{userId}/addresses")
 public class ApiAddressController {
 	@Autowired
 	private AddressService addressService;
@@ -29,9 +31,15 @@ public class ApiAddressController {
 	@Autowired
 	private AddressToAddressDTO toDTO;
 
+	@Autowired
+	private UserService userService;
+
 	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<List<AddressDTO>> get(){
-		List<Address> addresses = addressService.findAll();
+	public ResponseEntity<List<AddressDTO>> get(
+			@PathVariable Long userId){
+		
+		List<Address> addresses = 
+				addressService.findByUserId(userId);
 		
 		return new ResponseEntity<>(
 				toDTO.convert(addresses), 
@@ -39,8 +47,16 @@ public class ApiAddressController {
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<AddressDTO> get(@PathVariable Long id){
+	public ResponseEntity<AddressDTO> get(
+			@PathVariable Long id, 
+			@PathVariable Long userId){
+		
 		Address address = addressService.findOne(id);
+		
+		if(address==null || userId!=address.getUser().getId()){
+			return new ResponseEntity<>(
+					HttpStatus.NOT_FOUND);
+		}
 		
 		return new ResponseEntity<>(
 				toDTO.convert(address), 
@@ -51,9 +67,17 @@ public class ApiAddressController {
 			method=RequestMethod.POST,
 			consumes="application/json")
 	public ResponseEntity<AddressDTO> add(
-			@RequestBody AddressDTO newAddress){
+			@RequestBody AddressDTO newAddress,
+			@PathVariable Long userId){
 		
-		Address persisted = addressService.save(toAddress.convert(newAddress));
+		User user = userService.findOne(userId);
+
+		Address address = toAddress.convert(newAddress);
+		user.addAddress(address);
+		
+		Address persisted = addressService.save(
+				address);
+		userService.save(user);
 		
 		return new ResponseEntity<>(
 				toDTO.convert(persisted), 
@@ -81,9 +105,16 @@ public class ApiAddressController {
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.DELETE)
 	public ResponseEntity<AddressDTO> delete(
-			@PathVariable Long id){
+			@PathVariable Long id,
+			@PathVariable Long userId){
 		
+		User user = userService.findOne(userId);
+		Address address = addressService.findOne(id);
+		
+		user.getAddresses().remove(address);
+				
 		addressService.delete(id);
+		userService.save(user);
 		
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
