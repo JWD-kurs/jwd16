@@ -5,8 +5,10 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import jwd.wafepa.model.Activity;
 import jwd.wafepa.model.Address;
 import jwd.wafepa.model.User;
+import jwd.wafepa.service.ActivityService;
 import jwd.wafepa.service.AddressService;
 import jwd.wafepa.service.UserService;
 
@@ -19,6 +21,9 @@ public class TestData {
 	@Autowired
 	private AddressService addressService;
 
+	@Autowired
+	private ActivityService activityService;
+	
 	@PostConstruct
 	public void init(){
 	       for (int i = 1; i <= 100; i++) {
@@ -38,6 +43,8 @@ public class TestData {
 	                user.addAddress(address);
 	                addressService.save(address);
 	            }
+	            Activity activity = new Activity("Activity "+i);
+	            activityService.save(activity);
 	       }
 	}
 }
