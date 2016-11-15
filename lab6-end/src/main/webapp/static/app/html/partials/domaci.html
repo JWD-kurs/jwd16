@@ -1,0 +1,9 @@
+<h1>Domaci</h1>
+<div ng-controller="zadatak1">
+	tekst:<input ng-model="tekst"/>
+	<button ng-click="ponisti()" ng-disabled="!tekst">ponisti</button>
+</div>
+<div ng-controller="zadatak2">
+	polje1: <input ng-model="polje1"/><br/>
+	polje2: <input ng-model="polje2" ng-change="prebaci()"/>
+</div>
