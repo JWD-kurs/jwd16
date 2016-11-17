@@ -1,4 +1,4 @@
-var wafepaApp = angular.module('wafepaApp', ['ngRoute']);
+var wafepaApp = angular.module('wafepaApp', ['ngRoute','ui.bootstrap']);
 
 wafepaApp.controller('MyController', function($scope) {
 	
@@ -36,7 +36,7 @@ wafepaApp.config(['$routeProvider', function($routeProvider) {
 
 
 
-wafepaApp.controller('activitiesCtrl', function($scope,$http,$location){
+wafepaApp.controller('activitiesCtrl', function($scope,$http,$location,$uibModal){
 	var ucitajAktivnosti = function () {
 		$http.get('api/activities')
 			.success(function (data, status) {
@@ -60,6 +60,7 @@ wafepaApp.controller('activitiesCtrl', function($scope,$http,$location){
 		if(!$scope.act.id){
 			$http.post('api/activities',$scope.act)
 			.success(function () {
+				$scope.alerts.push({type:'success',msg:'Aktivnost '+$scope.act.name+' je uspesno dodata'})
 				ucitajAktivnosti();
 			});
 		}
@@ -76,7 +77,38 @@ wafepaApp.controller('activitiesCtrl', function($scope,$http,$location){
 	$scope.editNewPage = function(activity){
 		$location.path('editActivity/'+activity.id);
 	}
+	$scope.alerts = [
+    	// { type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' },
+    	// { type: 'success', msg: 'Well done! You successfully read this important alert message.' }
+  	];
+
+	$scope.addAlert = function() {
+		$scope.alerts.push({msg: 'Another alert!'});
+	};
+
+	$scope.closeAlert = function(index) {
+		$scope.alerts.splice(index, 1);
+	};
+
+	$scope.open = function (size) {
+	    var modalInstance = $uibModal.open({
+	      templateUrl: '/static/app/html/partial/modal.html',
+	      controller: 'ModalInstanceCtrl',
+	      size: size
+	    });
+	}
 });
+
+wafepaApp.controller('ModalInstanceCtrl', function ($uibModalInstance, $scope) {
+  $scope.ok = function () {
+    $uibModalInstance.close('ok');
+  };
+
+  $scope.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+});
+
 wafepaApp.controller('editActivityCtrl',function ($scope,$http,$routeParams,$location) {
 	var ucitajAktivnost = function () {
 		$http.get('api/activities/'+$routeParams.id)
