@@ -1,0 +1,11 @@
+<h2>Activities</h2>
+<div>
+	naziv: <input ng-model="act.name"/> <button ng-disabled="!act.name" ng-click="saveActivity()">save</button>
+</div>
+<ul>
+	<li ng-repeat="activity in activities">{{activity.name}} 
+		<button ng-click="deleteActivity(activity.id)">delete</button>
+		<button ng-click="editActivity(activity)">edit</button>
+		<button ng-click="editNewPage(activity)">edit new page</button>
+	</li>
+</ul>
