@@ -37,8 +37,19 @@ wafepaApp.config(['$routeProvider', function($routeProvider) {
 
 
 wafepaApp.controller('activitiesCtrl', function($scope,$http,$location,$uibModal){
+	$scope.currentPage=0;
+	$scope.changePage = function (i) {
+		$scope.currentPage += i;
+		console.log($scope.currentPage);
+		ucitajAktivnosti();
+	}
 	var ucitajAktivnosti = function () {
-		$http.get('api/activities')
+		var parameters = {};
+		if ($scope.filter && $scope.filter.name) {
+			parameters.name = $scope.filter.name;
+		};
+		parameters.page = $scope.currentPage;
+		$http.get('api/activities',{params:parameters})
 			.success(function (data, status) {
 				$scope.activities = data;
 				$scope.act = {};
@@ -61,6 +72,7 @@ wafepaApp.controller('activitiesCtrl', function($scope,$http,$location,$uibModal
 			$http.post('api/activities',$scope.act)
 			.success(function () {
 				$scope.alerts.push({type:'success',msg:'Aktivnost '+$scope.act.name+' je uspesno dodata'})
+				$scope.filter = {};
 				ucitajAktivnosti();
 			});
 		}
@@ -97,6 +109,12 @@ wafepaApp.controller('activitiesCtrl', function($scope,$http,$location,$uibModal
 	      size: size
 	    });
 	}
+
+	$scope.search = function(){
+		console.log($scope.filter);
+		ucitajAktivnosti();
+	}
+	
 });
 
 wafepaApp.controller('ModalInstanceCtrl', function ($uibModalInstance, $scope) {

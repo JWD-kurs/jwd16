@@ -27,7 +27,7 @@ public class TestData {
 	@PostConstruct
 	public void init(){
 	       for (int i = 1; i <= 100; i++) {
-	            User user = new User();
+/*	            User user = new User();
 	            user.setFirstName("First name " + i);
 	            user.setLastName("Last name " + i);
 	            user.setEmail("email" + i + "@example.com");
@@ -39,12 +39,14 @@ public class TestData {
 	                address.setNumber(j + "c/7");
 	                address.setStreat("Narodnog fronta");
 
-	                address.setUser(user);
+//	                address.setUser(user);
 	                user.addAddress(address);
 	                addressService.save(address);
 	            }
 	            Activity activity = new Activity("Activity "+i);
+	            activity.getUsers().add(user);
 	            activityService.save(activity);
+*/	            
 	       }
 	}
 }

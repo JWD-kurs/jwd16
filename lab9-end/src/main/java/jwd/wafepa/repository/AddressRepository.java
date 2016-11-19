@@ -11,9 +11,9 @@ import jwd.wafepa.model.User;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long>{
 
-	List<Address> findByUser(User user);
-	
-	List<Address> findByUserId(Long userId);
-	
-	Address findByIdAndUserId(Long id, Long userId);
+//	List<Address> findByUser(User user);
+//	
+//	List<Address> findByUserId(Long userId);
+//	
+//	Address findByIdAndUserId(Long id, Long userId);
 }

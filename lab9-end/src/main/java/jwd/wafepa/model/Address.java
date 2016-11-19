@@ -23,10 +23,10 @@ public class Address {
 	@Column
 	private String number;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+/*	@ManyToOne(fetch=FetchType.LAZY)
 	private User user;
 	
-	
+*/	
 	
 	public Long getId() {
 		return id;
@@ -46,7 +46,7 @@ public class Address {
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	public User getUser() {
+/*	public User getUser() {
 		
 		return user;
 	}
@@ -57,6 +57,6 @@ public class Address {
 			user.getAddresses().add(this);
 		}
 	}
-	
+*/	
 	
 }

@@ -42,7 +42,7 @@ public class JpaAddressService
 		addressRepository.delete(id);
 	}
 
-	@Override
+/*	@Override
 	public List<Address> findByUser(User user) {
 		return addressRepository.findByUser(user);
 	}
@@ -52,12 +52,12 @@ public class JpaAddressService
 		
 		return addressRepository.findByIdAndUserId(id, userId);
 	}
-
-	@Override
+*/
+/*	@Override
 	public List<Address> findByUserId(Long userId) {
 		
 		return addressRepository.findByUserId(userId);
 	}
-
+*/
 
 }

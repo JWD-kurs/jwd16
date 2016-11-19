@@ -35,9 +35,9 @@ public interface AddressService {
 	 */
 	void delete(Long id);
 	
-	List<Address> findByUser(User user);
-	
-	Address findByIdAndUser(Long id, Long userId);
-
-	List<Address> findByUserId(Long userId);
+//	List<Address> findByUser(User user);
+//	
+//	Address findByIdAndUser(Long id, Long userId);
+//
+//	List<Address> findByUserId(Long userId);
 }

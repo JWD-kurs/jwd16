@@ -37,9 +37,9 @@ public class ApiAddressController {
 	private AddressToAddressDTO toDTO;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<AddressDTO>> get(@PathVariable Long userId) {
+	public ResponseEntity<List<AddressDTO>> get(@PathVariable Long id) {
 
-		List<Address> addresses = addressService.findByUserId(userId);
+		List<Address> addresses = (List<Address>) addressService.findOne(id);
 
 		return new ResponseEntity<>(toDTO.convert(addresses), HttpStatus.OK);
 	}
@@ -48,7 +48,7 @@ public class ApiAddressController {
 	public ResponseEntity<AddressDTO> get(@PathVariable Long id,
 			@PathVariable Long userId) {
 
-		Address address = addressService.findByIdAndUser(id, userId);
+		Address address = addressService.findOne(id);
 
 		if (address == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -81,7 +81,7 @@ public class ApiAddressController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		Address oldAddress = addressService.findByIdAndUser(id, userId);
+		Address oldAddress = addressService.findOne(id);
 		if (oldAddress == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

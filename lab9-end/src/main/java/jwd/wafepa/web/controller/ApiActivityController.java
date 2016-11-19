@@ -32,18 +32,19 @@ public class ApiActivityController {
 	private ActivityDTOToActivity toActivity;
 
 	@RequestMapping(method = RequestMethod.GET)
-	ResponseEntity<List<ActivityDTO>> getActivities(
-			@RequestParam(value = "name", required = false) String name) {
+	ResponseEntity<List<Activity>> getActivities(
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "page", required = false, defaultValue = "0") int page) {
 
 		List<Activity> activities;
 
 		if (name != null) {
-			activities = activityService.findByName(name);
+			activities = activityService.findByName(name, page).getContent();
 		} else {
-			activities = activityService.findAll();
+			activities = activityService.findAll(page).getContent();
 		}
 
-		return new ResponseEntity<>(toDTO.convert(activities), HttpStatus.OK);
+		return new ResponseEntity<>(activities, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -64,25 +65,24 @@ public class ApiActivityController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, consumes = "application/json")
-	public ResponseEntity<ActivityDTO> add(@RequestBody ActivityDTO newActivity) {
+	public ResponseEntity<Activity> add(@RequestBody Activity newActivity) {
 
-		Activity savedActivity = activityService.save(toActivity
-				.convert(newActivity));
+		Activity savedActivity = activityService.save(newActivity);
 
-		return new ResponseEntity<>(toDTO.convert(savedActivity), HttpStatus.CREATED);
+		return new ResponseEntity<>(savedActivity, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(method = RequestMethod.PUT, value = "/{id}", consumes = "application/json")
-	public ResponseEntity<ActivityDTO> edit(@RequestBody ActivityDTO activity,
+	public ResponseEntity<Activity> edit(@RequestBody Activity activity,
 			@PathVariable Long id) {
 
 		if (id != activity.getId()) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-		Activity persisted = activityService.save(toActivity.convert(activity));
+		Activity persisted = activityService.save(activity);
 
-		return new ResponseEntity<>(toDTO.convert(persisted), HttpStatus.OK);
+		return new ResponseEntity<>(persisted, HttpStatus.OK);
 	}
 
 }

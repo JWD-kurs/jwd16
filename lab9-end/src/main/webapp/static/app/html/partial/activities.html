@@ -9,18 +9,31 @@
 </div>
 <button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button> -->
 
-<form class="form">
-	<div class="form-group">
-		<label for="name">naziv:</label> 
-		<input class="form-control" id="name" ng-model="act.name"/> 
-	</div>
-	<button class="btn btn-primary" ng-disabled="!act.name" ng-click="saveActivity()">save</button>
-</form>
+<div class="container">
+	<form class="form">
+		<div class="form-group">
+			<label for="name">naziv:</label> 
+			<input class="form-control" id="name" ng-model="act.name"/> 
+		</div>
+		<button class="btn btn-primary" ng-disabled="!act.name" ng-click="saveActivity()">save</button>
+	</form>
 
+	<form class="form">
+		<div class="form-group">
+			<label for="name">naziv:</label>
+			<input class="form-control" ng-model="filter.name"/>
+		</div>
+		<button class="btn btn-primary" ng-click="search()">filter</button>
+	</form>
+</div>
 <div>
 	<button type="button" class="btn btn-default" ng-click="open()">Open me!</button>
 </div>
 
+<div class="btn-group pull-right">
+	<button class="btn btn-primary" ng-disabled="currentPage==0" ng-click="changePage(-1)">prev</button>
+	<button class="btn btn-primary" ng-disabled="activities.length<10" ng-click="changePage(1)">next</button>
+</div>
 <table class="table table-striped">
 	<thead>
 	  <tr>

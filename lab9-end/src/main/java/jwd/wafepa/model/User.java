@@ -34,19 +34,19 @@ public class User {
 	@Column(name="last_name")
 	private String lastName;
 	
-	@OneToMany(mappedBy="user",cascade=CascadeType.REMOVE)
+	@OneToMany(cascade=CascadeType.REMOVE)
 	private List<Address> addresses = new ArrayList<>();
 	
 	public void addAddress(Address address){
 		this.addresses.add(address);
 		
-		if(address.getUser()!=this){
+/*		if(address.getUser()!=this){
 			address.setUser(this);
 		}
-	}
+*/	}
 	
 	public void removeAddress(Address address){
-		address.setUser(null);
+//		address.setUser(null);
 		addresses.remove(address);
 	}
 	
