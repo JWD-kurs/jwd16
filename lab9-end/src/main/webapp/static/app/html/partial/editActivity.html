@@ -1,0 +1,8 @@
+<h1>Edit activity</h1>
+<form class="form">
+	<div class="form-group">
+		<label for="name">naziv:</label> 
+		<input class="form-control" id="name" ng-model="activity.name"/> 
+	</div>
+	<button class="btn btn-primary" ng-disabled="!activity.name" ng-click="saveActivity()">save</button>
+</form>
