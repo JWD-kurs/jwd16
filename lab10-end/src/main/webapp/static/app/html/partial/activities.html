@@ -1,0 +1,62 @@
+<h2>Activities</h2>
+
+<div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">
+	{{alert.msg}}
+</div>
+
+<!-- <div uib-alert style="background-color:#fa39c3;color:white">
+	A happy alert!
+</div>
+<button type="button" class='btn btn-default' ng-click="addAlert()">Add Alert</button> -->
+
+<div class="container">
+	<form class="form">
+		<div class="form-group">
+			<label for="name">naziv:</label> 
+			<input class="form-control" id="name" ng-model="act.name"/> 
+		</div>
+		<button class="btn btn-primary" ng-disabled="!act.name" ng-click="saveActivity()">save</button>
+	</form>
+
+	<form class="form">
+		<div class="form-group">
+			<label for="name">naziv:</label>
+			<input class="form-control" ng-model="filter.name"/>
+		</div>
+		<button class="btn btn-primary" ng-click="search()">filter</button>
+	</form>
+</div>
+<div>
+	<button type="button" class="btn btn-default" ng-click="open()">Open me!</button>
+</div>
+
+<div class="btn-group pull-right">
+	<button class="btn btn-primary" ng-disabled="currentPage==0" ng-click="changePage(-1)">prev</button>
+	<button class="btn btn-primary" ng-disabled="activities.length<10" ng-click="changePage(1)">next</button>
+</div>
+<table class="table table-striped">
+	<thead>
+	  <tr>
+	    <th>Name</th>
+	    <th>Action</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr ng-repeat="activity in activities">
+	    <td>{{activity.name}}</td>
+	    <td>
+	    	<button class="btn btn-danger" ng-click="deleteActivity(activity.id)">delete</button>
+			<button class="btn btn-warning" ng-click="editActivity(activity)">edit</button>
+			<button class="btn btn-success" ng-click="editNewPage(activity)">edit new page</button>
+		</td>
+	  </tr>
+	</tbody>
+</table>
+
+<!-- <ul>
+	<li ng-repeat="activity in activities">{{activity.name}} 
+		<button ng-click="deleteActivity(activity.id)">delete</button>
+		<button ng-click="editActivity(activity)">edit</button>
+		<button ng-click="editNewPage(activity)">edit new page</button>
+	</li>
+</ul> -->
