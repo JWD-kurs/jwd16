@@ -1,0 +1,40 @@
+<h1>Books</h1>
+<div class="container">
+	<form class="form">
+		<div class="form-group">
+			<label for="title">title:</label>
+			<input class="form-control" id="title" ng-model="newBook.title"/>
+		</div>
+		<div class="form-group">
+			<label for="authors">authors:</label>
+			<select multiple class="form-control" id="title" ng-model="newBook.authors">
+				<option ng-repeat="author in authors" value="{{author.id}}">{{author.firstName}} {{author.lastName}}</option>
+			</select>
+		</div>
+		<button ng-click="saveBook()" class="btn btn-primary">save</button>
+	</form>
+</div>
+<div class="container">
+	<form class="form">
+		<div class="form-group">
+			<label for="title">title:</label>
+			<input class="form-control" id="title" ng-model="search.name"/>
+		</div>
+		<button ng-click="findBooks()" class="btn btn-primary">find</button>
+	</form>
+</div>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th>title</th>
+			<th>authors</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="book in books">
+			<td>{{book.title}}</td>
+			<td>{{formatAuthors(book.authors)}}</td>
+		</tr>
+	</tbody>
+</table>

@@ -29,12 +29,66 @@ wafepaApp.config(['$routeProvider', function($routeProvider) {
             templateUrl : '/static/app/html/partial/activities.html',
             controller: 'activitiesCtrl'
         })
+        .when('/books', {
+            templateUrl : '/static/app/html/partial/books.html',
+            controller: 'booksCtrl'
+        })
         .otherwise({
             redirectTo: '/',
         });
 }]);
 
-
+wafepaApp.controller('booksCtrl', function ($http,$scope) {
+	var getBooks = function (){
+		var parameters = {}
+		if($scope.search&&$scope.search.name){
+			parameters.name=$scope.search.name;
+		}
+		$http.get('api/books',{params:parameters})
+		.success(function (data) {
+			$scope.books = data;
+		})
+		.error(function (data,status) {
+			console.log('error',status);
+		});
+	}
+	var getAuthors = function (){
+		$http.get('api/authors')
+		.success(function (data) {
+			$scope.authors = data;
+		})
+		.error(function (data,status) {
+			console.log('error',status);
+		});
+	}
+	getBooks();
+	getAuthors();
+	$scope.formatAuthors = function(authors){
+		retVal='';
+		for (var i = 0; i < authors.length; i++) {
+			retVal+=authors[i].firstName+' '+authors[i].lastName+','
+		}
+		return retVal;
+	}
+	$scope.saveBook = function () {
+		var auths = []
+		for (var i = 0; i < $scope.authors.length; i++) {
+			if($scope.newBook.authors[i]){
+				auths.push({'id':$scope.newBook.authors[i]});
+			}
+		};
+		var bookForSending = {};
+		bookForSending.title = $scope.newBook.title;
+		bookForSending.authors = auths;
+		$http.post('api/books',bookForSending)
+		.success(function () {
+			getBooks()
+		});
+	}
+	$scope.findBooks = function(){
+		getBooks();
+	}
+});
 
 wafepaApp.controller('activitiesCtrl', function($scope,$http,$location,$uibModal){
 	$scope.currentPage=0;
